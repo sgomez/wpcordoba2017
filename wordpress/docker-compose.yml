@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+  wpapi:
+    image: wordpress
+    volumes:
+      - './web:/var/www/html:cached'
+    ports:
+      - 127.0.0.1:80:80
+    external_links:
+      - 'db'
+    networks:
+      - 'mysql_default'
+      - 'default'
+
+networks:
+    mysql_default:
+        external: true
