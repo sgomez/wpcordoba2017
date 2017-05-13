@@ -113,5 +113,18 @@ function my_insert_using_custom_status( $data = array(), $postarr = array() ) {
 }
 add_filter( 'wp_insert_post_data', 'my_insert_using_custom_status', 10, 2 );
 
+function my_display_status_label( $statuses ) {
+	global $post; // we need it to check current post status
+	if( !in_array(get_query_var( 'post_status' ), ['completed', 'todo']) ){ // not for pages with all posts of this status
+		if( $post->post_status == 'completed' ){
+			return array('Completed'); // returning our status label
+		} else if ($post->post_status == 'todo') {
+      return array('Todo');
+    }
+	}
+	return $statuses; // returning the array with default statuses
+}
+
+add_filter( 'display_post_states', 'my_display_status_label' );
 
 add_filter( 'allowed_http_origin', '__return_true' );
